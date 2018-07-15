@@ -6,10 +6,10 @@
 
 #### Step 2: Classification Model  
 1. **Model:**
-	- **Input**: Image of shape [batch_size=32, height=100, width=100, depth=100, channels=1]  **(or image size (None, None, None) since some images have sizes like (34, 52, 35)) ??**  
+	- **Input**: Image of shape [batch_size=32, height=50, width=50, depth=50, channels=1]. Use [resize](http://scikit-image.org/docs/dev/api/skimage.transform.html#skimage.transform.resize).    
 	- **Architecture**: Similar to Densenet. Remove last set of layers. Use 3D convs of size (5,5,5).  
 	- **Output**: 7 classes, one for each task. Use Adam **(AdamW?)** and categorical cross entropy.  
-	- **Validation**: **Should we use test data as the validation data directly?**  
+	- **Validation**: 20% of train data.  
 
 2.  **Data generator:**  
 	- Add augmentations. Use Keras custom datagen.  
