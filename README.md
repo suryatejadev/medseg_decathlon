@@ -9,6 +9,7 @@
 	- **Input**: Image of shape [batch_size=32, height=100, width=100, depth=100, channels=1]  **(or image size (None, None, None) since some images have sizes like (34, 52, 35)) ??**  
 	- **Architecture**: Similar to Densenet. Remove last set of layers. Use 3D convs of size (5,5,5).  
 	- **Output**: 7 classes, one for each task. Use Adam **(AdamW?)** and categorical cross entropy.  
+	- **Validation**: **Should we use test data as the validation data directly?**  
 
 2.  **Data generator:**  
 	- Add augmentations. Use Keras custom datagen.  
