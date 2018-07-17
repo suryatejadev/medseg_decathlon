@@ -3,6 +3,8 @@ import nibabel as nib
 import os
 from skimage.transform import resize
 from scipy.ndimage import affine_transform
+import random
+import math
 
 
 def load_img(path):
