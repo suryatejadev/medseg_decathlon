@@ -25,7 +25,6 @@ model:
         input_shape: *dims
         classes: 8
 
-# Train parameters
 train:
     ckpt_period: 1
     fit_params:
