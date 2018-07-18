@@ -6,7 +6,7 @@ data_path: ../data
 output_dir: &output ../output
 
 # Data
-batch_size: &bsize 8
+batch_size: &bsize 4
 datagen:
     batch_size: *bsize
     img_dims: &dims !!python/tuple [50, 50, 50, 1]
@@ -27,9 +27,9 @@ model:
 
 # Train parameters
 train:
-    ckpt_period: 1
+    ckpt_period: 2
     fit_params:
-        epochs: 1
+        epochs: 5
         steps_per_epoch: 1
         validation_steps: 1
 

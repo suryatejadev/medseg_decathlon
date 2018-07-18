@@ -1,5 +1,7 @@
 import numpy as np
 import os
+import pandas as pd
+import matplotlib.pyplot as plt
 
 import tensorflow as tf
 from keras.backend.tensorflow_backend import set_session
@@ -48,6 +50,27 @@ class Model:
         self.model.fit_generator(generator=datagen_train, 
                 validation_data=datagen_val, callbacks=callbacks,
                 verbose=2, **fit_params)
+
+        # Save the plots
+        self.save_plots(log_path, output_dir+'/logs/')
+
+    def save_plots(self, log_path, output_dir):
+        # Save the plots
+        logs = pd.read_csv(log_path)
+        acc_train, loss_train = logs['acc'], logs['loss']
+        acc_val, loss_val = logs['val_acc'], logs['val_loss']
+        # Plot accuracy
+        plt.figure()
+        plt.plot(acc_train, c='b', label='Training')
+        plt.plot(acc_val, c='g', label='Validation')
+        plt.title('Accuracy'); plt.legend();
+        plt.savefig(output_dir+'accuracy.png', dpi=300); plt.close()
+        # Plot loss
+        plt.figure()
+        plt.plot(loss_train, c='b', label='Training')
+        plt.plot(loss_val, c='g', label='Validation')
+        plt.title('Loss'); plt.legend();
+        plt.savefig(output_dir+'loss.png', dpi=300); plt.close()
 
     def test(self, test_params):
         pass
