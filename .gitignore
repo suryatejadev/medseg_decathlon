@@ -2,3 +2,6 @@ data/
 .ipynb_checkpoints
 *.h5
 *.pyc
+data_sliced/
+*.fuse*
+misc/Sample

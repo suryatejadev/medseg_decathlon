@@ -1,0 +1,35 @@
+# Experiment
+exp_id: debug_segment
+
+# Paths
+data_path: ../data_sliced
+output_dir: &output ../output
+
+# Data
+batch_size: &bsize 32
+datagen:
+    batch_size: *bsize
+    img_dims: &dims !!python/tuple [50, 50, 1]
+
+# Model
+model:
+    name: 'Densenet_segment'
+    trained_model: None
+    compile_params:
+        optimizer: Adam
+        loss: categorical_crossentropy
+        metrics: ['accuracy']
+
+    model_params:
+        blocks: [6, 12, 24]
+        input_shape: *dims
+        classes: 8
+
+# Train parameters
+train:
+    ckpt_period: 2
+    fit_params:
+        epochs: 5
+        steps_per_epoch: 1
+        validation_steps: 1
+
