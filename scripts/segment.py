@@ -24,18 +24,24 @@ def segment(config_file):
     copyfile(config_file, os.path.join(exp_dir, config['exp_id']+'.yaml'))
 
     # Train and validation data generators
-    paths_train, annot_train, ltr, paths_val, annot_val, lval \
+    paths_train, annot_train, _, paths_val, annot_val, _\
             = datagen.get_paths(config['data_path'])
     datagen_train = datagen.datagen_segment(paths_train,
             annot_train, **config['datagen'])
     datagen_val = datagen.datagen_segment(paths_val,
             annot_val, **config['datagen'])
+   
+    x,y = next(datagen_train)
+    print(x.shape, x.min(), x.max(), y.shape, y.min(), y.max())
+    
+    # Tensorflow initialize session
+    utils.init_session()
     
     # Define Classification model
     model = engine.Model(**config['model'])
 
     #  # Train the model
-    #  model.train(datagen_train, datagen_val, exp_dir, **config['train'])
+    model.train(datagen_train, datagen_val, exp_dir, **config['train'])
 
     # Test the model
     #  model.test(**config['test'])

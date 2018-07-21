@@ -9,27 +9,30 @@ output_dir: &output ../output
 batch_size: &bsize 32
 datagen:
     batch_size: *bsize
-    img_dims: &dims !!python/tuple [50, 50, 1]
+    img_dims: &dims !!python/tuple [320, 320, 1]
 
 # Model
 model:
-    name: 'Densenet_segment'
+    name: 'DilatedDenseNet'
     trained_model: None
     compile_params:
         optimizer: Adam
-        loss: categorical_crossentropy
+        loss: dice_coef #categorical_crossentropy
         metrics: ['accuracy']
-
+    
     model_params:
-        blocks: [6, 12, 24]
         input_shape: *dims
-        classes: 8
+        features: 12
+        depth: 4
+        padding: same
+        batchnorm: True 
+        dropout: 0.0 
 
 # Train parameters
 train:
     ckpt_period: 2
     fit_params:
-        epochs: 5
+        epochs: 2
         steps_per_epoch: 1
         validation_steps: 1
 

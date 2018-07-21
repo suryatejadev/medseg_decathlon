@@ -1,7 +1,6 @@
 import numpy as np
 import os
-
-from keras import backend, engine, layers, models, utils
+from keras import layers, backend, models
 
 def dense_block3D(x, blocks, name):
     """A dense block.

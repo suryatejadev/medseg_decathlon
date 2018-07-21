@@ -4,8 +4,9 @@ import pandas as pd
 import matplotlib.pyplot as plt
 
 import tensorflow as tf
-from keras.backend.tensorflow_backend import set_session
 from keras.callbacks import ModelCheckpoint, CSVLogger
+from keras.losses import categorical_crossentropy
+import keras.backend as K
 
 from medseg import models
 
@@ -13,30 +14,38 @@ class Model:
     def __init__(self, name, trained_model, compile_params, model_params):
         # Model architectures
         model_dict = {
-                'Densenet3D': models.DenseNet3D
+                'DenseNet3D': models.DenseNet3D,
+                'UNet2D': models.UNet2D,
+                'DilatedDenseNet': models.DilatedDenseNet
                 }
-        
-        # Tensorflow initialize session
-        self.init_session()
         
         # Load model architecture
         self.model = model_dict[name](**model_params)
+        print(self.model.summary())
         
         # Load saved weights
         if trained_model!='None':
             self.model.load_weights(trained_model)
 
         # Compile the model
-        self.model.compile(**compile_params)
+        self.model.compile(
+                optimizer=compile_params['optimizer'],
+                loss=self.loss(compile_params['loss']),
+                metrics=compile_params['metrics'])
 
-    def init_session(self):
-        os.environ["CUDA_DEVICE_ORDER"]="PCI_BUS_ID"
-        os.environ["CUDA_VISIBLE_DEVICES"] = "0"
-        config = tf.ConfigProto()
-        config.gpu_options.allow_growth = True
-        sess = tf.Session(config=config)
-        set_session(sess)
-    
+    def loss(self, loss_name):
+        if loss_name=='categorical_crossentropy':
+            loss = categorical_crossentropy
+        elif loss_name=='dice_coef':
+            def dice_coef(y_true, y_pred, smooth=1):
+                y_true_f = K.flatten(y_true)
+                y_pred_f = K.flatten(y_pred)
+                intersection = K.sum(y_true_f * y_pred_f)
+                dice_coef = (2. * intersection + smooth) / (K.sum(y_true_f) + K.sum(y_pred_f) + smooth)
+                return 1 - dice_coef
+            loss = dice_coef
+        return loss
+
     def train(self, datagen_train, datagen_val, output_dir, ckpt_period, fit_params):
         # Callbacks
         wt_path = output_dir+'/checkpoints/'+'wt-{epoch:02d}-{val_acc:.2f}.h5'

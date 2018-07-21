@@ -6,6 +6,8 @@ from scipy.ndimage import affine_transform
 import random
 import math
 import cv2
+from keras.backend.tensorflow_backend import set_session
+import tensorflow as tf
 
 def load_img(path):
     if '.nii.gz' in path:
@@ -28,4 +30,10 @@ def create_dirs(paths):
         if os.path.exists(path)==False:
             os.mkdir(path)
 
-
+def init_session():
+    os.environ["CUDA_DEVICE_ORDER"]="PCI_BUS_ID"
+    os.environ["CUDA_VISIBLE_DEVICES"] = "0"
+    config = tf.ConfigProto()
+    config.gpu_options.allow_growth = True
+    sess = tf.Session(config=config)
+    set_session(sess)

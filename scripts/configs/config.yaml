@@ -13,7 +13,7 @@ datagen:
 
 # Model
 model:
-    name: 'Densenet3D'
+    name: 'DenseNet3D'
     trained_model: None
     compile_params:
         optimizer: Adam

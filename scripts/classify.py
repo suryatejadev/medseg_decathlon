@@ -33,7 +33,7 @@ def classify(config_file):
     model = engine.Model(**config['model'])
 
     # Train the model
-    model.train(datagen_train, datagen_val, exp_dir, **config['train'])
+    #  model.train(datagen_train, datagen_val, exp_dir, **config['train'])
 
     # Test the model
     #  model.test(**config['test'])

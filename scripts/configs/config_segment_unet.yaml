@@ -13,7 +13,7 @@ datagen:
 
 # Model
 model:
-    name: 'DilatedDenseNet'
+    name: 'UNet2D'
     trained_model: None
     compile_params:
         optimizer: Adam
@@ -22,11 +22,13 @@ model:
     
     model_params:
         input_shape: *dims
-        features: 12
-        depth: 4
-        padding: same
-        batchnorm: True 
-        dropout: 0.0 
+        features: 32
+        depth: 5
+        conv_params:
+            padding: same
+            dropout: 0.0 
+            batchnorm: True 
+            dilation: !!python/tuple [1,1]
 
 # Train parameters
 train:
