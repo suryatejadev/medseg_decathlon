@@ -5,14 +5,14 @@ from skimage.transform import resize
 from scipy.ndimage import affine_transform
 import random
 import math
-import cv2
+from matplotlib import pyplot as plt
 from keras.backend.tensorflow_backend import set_session
 import tensorflow as tf
 
 def load_img(path):
     if '.nii.gz' in path:
         return nib.load(path).get_fdata()
-    return cv2.imread(path, 0)
+    return plt.imread(path)
 
 def resize_img(img, img_dims):
     # Choose MR T2 channel for prostrate

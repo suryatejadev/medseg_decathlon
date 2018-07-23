@@ -12,7 +12,7 @@ from medseg import utils
 
 # Get the file paths for train and validation images and labels
 def get_paths(data_path, validation_split=0.2):
-    task_list = os.listdir(data_path)
+    task_list = [x for x in os.listdir(data_path) if x.startswith('Task')]
     N_tasks = len(task_list)
 
     num_labels = []
@@ -148,7 +148,7 @@ def datagen_classify(data, labels, batch_size, img_dims):
         labels_batch = np.zeros((batch_size, labels.shape[1]))
         for i in range(batch_size):
             img = utils.load_img(data[batch_index[i]])
-            img = utils.resize_img(img, img_dims)[...,0]
+            img = utils.resize_img(img, np.array(img_dims)[:-1])
             img = utils.normalize(img, maxval=255)
             img = augment_img(img)[...,np.newaxis]
             img = utils.normalize(img, maxval=1)
