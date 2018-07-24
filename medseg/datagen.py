@@ -148,7 +148,7 @@ def datagen_classify(data, labels, batch_size, img_dims):
         labels_batch = np.zeros((batch_size, labels.shape[1]))
         for i in range(batch_size):
             img = utils.load_img(data[batch_index[i]])
-            img = utils.resize_img(img, np.array(img_dims)[:-1])
+            #  img = utils.resize_img(img, np.array(img_dims)[:-1])
             img = utils.normalize(img, maxval=255)
             img = augment_img(img)[...,np.newaxis]
             img = utils.normalize(img, maxval=1)

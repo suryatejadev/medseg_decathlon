@@ -8,10 +8,13 @@ import math
 from matplotlib import pyplot as plt
 from keras.backend.tensorflow_backend import set_session
 import tensorflow as tf
+import tifffile
 
 def load_img(path):
     if '.nii.gz' in path:
         return nib.load(path).get_fdata()
+    elif '.tif' in path:
+        return tifffile.imread(path)
     return plt.imread(path)
 
 def resize_img(img, img_dims):

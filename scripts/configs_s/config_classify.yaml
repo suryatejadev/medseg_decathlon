@@ -2,7 +2,7 @@
 exp_id: debug
 
 # Paths
-data_path: ../data
+data_path: ../data3d_size_50
 output_dir: &output ../output
 
 # Data

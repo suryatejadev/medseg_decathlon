@@ -28,9 +28,9 @@ def classify(config_file):
             = datagen.get_paths(config['data_path'])
     datagen_train = datagen.datagen_classify(paths_train, labels_train, **config['datagen'])
     datagen_val = datagen.datagen_classify(paths_val, labels_val, **config['datagen'])
-
+    
     # Define Classification model
-    model = engine.Model(**config['model'])
+    #  model = engine.Model(**config['model'])
 
     # Train the model
     #  model.train(datagen_train, datagen_val, exp_dir, **config['train'])

@@ -2,7 +2,7 @@
 exp_id: debug
 
 # Paths
-data_path: /media/DATA/Datasets/medseg_decathlon
+data_path: ../data3d_size_50
 output_dir: &output ../output
 
 # Data
@@ -21,15 +21,15 @@ model:
         metrics: ['accuracy']
 
     model_params:
-        blocks: [3, 6, 12]
+        blocks: [6, 12, 24]
         input_shape: *dims
-        classes: 20
+        classes: 8
 
 # Train parameters
 train:
     ckpt_period: 2
     fit_params:
         epochs: 5
-        steps_per_epoch: 302
-        validation_steps: 20
+        steps_per_epoch: 1
+        validation_steps: 1
 
