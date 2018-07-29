@@ -19,9 +19,6 @@ class Model:
                 'DilatedDenseNet': models.DilatedDenseNet
                 }
 
-        # Segmentation Lookup Table
-
-        
         # Load model architecture
         self.model = model_dict[name](**model_params)
         print(self.model.summary())
