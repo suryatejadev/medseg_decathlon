@@ -33,15 +33,16 @@ def segment(config_file):
    
     x,y = next(datagen_train)
     print(x.shape, x.min(), x.max(), y.shape, y.min(), y.max())
+    return x,y
     
     # Tensorflow initialize session
-    utils.init_session()
+    #  utils.init_session()
     
     # Define Classification model
-    model = engine.Model(**config['model'])
+    #  model = engine.Model(**config['model'])
 
     #  # Train the model
-    model.train(datagen_train, datagen_val, exp_dir, **config['train'])
+    #  model.train(datagen_train, datagen_val, exp_dir, **config['train'])
 
     # Test the model
     #  model.test(**config['test'])
@@ -50,6 +51,6 @@ if __name__=='__main__':
     parser = argparse.ArgumentParser()
     parser.add_argument('--config', type=str)
     args = parser.parse_args()
-    a = segment(args.config)
+    x,y = segment(args.config)
     
 

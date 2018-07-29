@@ -18,6 +18,9 @@ class Model:
                 'UNet2D': models.UNet2D,
                 'DilatedDenseNet': models.DilatedDenseNet
                 }
+
+        # Segmentation Lookup Table
+
         
         # Load model architecture
         self.model = model_dict[name](**model_params)
@@ -41,7 +44,8 @@ class Model:
                 y_true_f = K.flatten(y_true)
                 y_pred_f = K.flatten(y_pred)
                 intersection = K.sum(y_true_f * y_pred_f)
-                dice_coef = (2. * intersection + smooth) / (K.sum(y_true_f) + K.sum(y_pred_f) + smooth)
+                dice_coef = (2. * intersection + smooth) /\
+                        (K.sum(y_true_f) + K.sum(y_pred_f) + smooth)
                 return 1 - dice_coef
             loss = dice_coef
         return loss

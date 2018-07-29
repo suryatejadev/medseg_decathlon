@@ -2,6 +2,7 @@ import numpy as np
 import nibabel as nib
 import os
 from skimage.transform import resize
+from skimage.io import imread
 from scipy.ndimage import affine_transform
 import random
 import math
@@ -15,7 +16,26 @@ def load_img(path):
         return nib.load(path).get_fdata()
     elif '.tif' in path:
         return tifffile.imread(path)
-    return plt.imread(path)
+    elif '.npy' in path:
+        return np.load(path)
+    return imread(path, asgray=True)
+
+def get_sublabel_value(sub_label, path):
+    # Get task number: for Task02_Heart its 2
+    task = int(path.split(os.sep)[2][5])
+    # tasks = 7; total subclasses = 20
+    # 1:4 , 2:2 , 3:3, 4:3, 5:3, 6:2 , 7:3
+    task_vals = {
+            1: [0, 13, 27, 40], 
+            2: [54, 67], 
+            3: [81, 94, 107], 
+            4: [121, 134, 148], 
+            5: [161, 174, 188], 
+            6: [201, 215], 
+            7: [228, 242, 255]
+            }
+    return task_vals[task][sub_label]
+
 
 def resize_img(img, img_dims):
     # Choose MR T2 channel for prostrate

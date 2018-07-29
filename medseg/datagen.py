@@ -10,6 +10,8 @@ from scipy.ndimage import affine_transform
 from keras.preprocessing.image import apply_affine_transform
 from medseg import utils
 
+import matplotlib.pyplot as plt
+
 # Get the file paths for train and validation images and labels
 def get_paths(data_path, validation_split=0.2):
     task_list = [x for x in os.listdir(data_path) if x.startswith('Task')]
@@ -52,7 +54,7 @@ def get_paths(data_path, validation_split=0.2):
         annot_path = os.path.join(data_path,task,'labelsTr')
         annot_paths_task = []
         for name in img_names:
-            annot_paths_task.append(os.path.join(annot_path, name))
+            annot_paths_task.append(os.path.join(annot_path, name[:-3]+'npy'))
         annot_train.append(annot_paths_task[:num_train])
         annot_val.append(annot_paths_task[num_train:])
         
@@ -129,8 +131,8 @@ def augment_img2d(img, tx_params=None, max_r=5, max_t=5, max_s=1.4):
         tx_params['theta'] = np.random.randint(-max_r, max_r+1)
         tx_params['tx'] = np.random.randint(-max_t, max_t+1)
         tx_params['ty'] = np.random.randint(-max_t, max_t+1)
-        tx_params['zx'] = np.random.uniform(-max_s, max_s)
-        tx_params['zy'] = np.random.uniform(-max_s, max_s)
+        #  tx_params['zx'] = np.random.uniform(-max_s, max_s)
+        #  tx_params['zy'] = np.random.uniform(-max_s, max_s)
 
     img_tx = apply_affine_transform(img, **tx_params)
     return img_tx, tx_params
@@ -174,15 +176,25 @@ def datagen_segment(data, annots, batch_size, img_dims):
             img = utils.load_img(data[batch_index[i]])
             img = utils.resize_img(img, img_dims)
             img, tx_params = augment_img2d(img)
-            img_batch.append(img)
             
-            # Get annotation
+            # Get annotation and conditioning image
             annot = utils.load_img(annots[batch_index[i]])
-            annot[np.where(annot>0)] = 255
+            sub_label = 0 if annot.max()==0 \
+                    else np.random.choice(int(annot.max())+1)
+            sub_label_value = utils.get_sublabel_value(
+                sub_label, annots[batch_index[i]])
+            cond_img = np.ones_like(img)*sub_label_value/255.
+            img_cond = np.concatenate((img, cond_img), axis=-1)
+            img_batch.append(img_cond)
+
+            loc = np.where(annot==sub_label)
+            annot = np.zeros_like(img)
+            annot[loc] = 1
+
             annot = utils.resize_img(annot, img_dims)
             annot,_ = augment_img2d(annot, tx_params)
             annot_batch.append(annot)
-            
+
         img_batch = np.array(img_batch)
         annot_batch = np.array(annot_batch)
         yield(img_batch, annot_batch)
