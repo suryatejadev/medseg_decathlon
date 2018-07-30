@@ -7,10 +7,7 @@ import random
 import math
 from scipy.ndimage import affine_transform
 
-from keras.preprocessing.image import apply_affine_transform
 from medseg import utils
-
-import matplotlib.pyplot as plt
 
 # Get the file paths for train and validation images and labels
 def get_paths(data_path, validation_split=0.2):
@@ -130,10 +127,11 @@ def augment_img2d(img, tx_params=None, max_r=5, max_t=5, max_s=1.4):
         tx_params['theta'] = np.random.randint(-max_r, max_r+1)
         tx_params['tx'] = np.random.randint(-max_t, max_t+1)
         tx_params['ty'] = np.random.randint(-max_t, max_t+1)
+        tx_params['horizontal_flip'] = True if np.random.choice(2)>0.5 else False
         #  tx_params['zx'] = np.random.uniform(-max_s, max_s)
         #  tx_params['zy'] = np.random.uniform(-max_s, max_s)
 
-    img_tx = apply_affine_transform(img, **tx_params)
+    img_tx = utils.apply_affine_transform(img, **tx_params)
     return img_tx, tx_params
 
 def datagen_classify(data, labels, batch_size, img_dims):

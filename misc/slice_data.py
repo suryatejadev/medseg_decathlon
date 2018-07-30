@@ -6,8 +6,11 @@ from nibabel.processing import resample_to_output
 from scipy.misc import imsave
 from shutil import copyfile
 
-data_path = '/media/DATA/Datasets/medseg_decathlon/'
-output_path = '/media/DATA/Datasets/medseg_decathlon/aux/data_sliced'
+#  data_path = '/media/DATA/Datasets/medseg_decathlon/'
+#  output_path = '/media/DATA/Datasets/medseg_decathlon/aux/data_sliced'
+data_path = '../data/'
+output_path = '../data_sliced/'
+
 task_list = [x for x in os.listdir(data_path) if 'Task' in x]
 for task in task_list:
     images_list =  os.listdir(data_path+task+'/imagesTr')

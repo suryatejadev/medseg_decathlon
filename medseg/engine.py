@@ -61,7 +61,7 @@ class Model:
                 validation_data=datagen_val, callbacks=callbacks,
                 verbose=2, **fit_params)
 
-        # Save the plots
+        #  Save the plots
         self.save_plots(log_path, output_dir+'/logs/')
 
     def save_plots(self, log_path, output_dir):

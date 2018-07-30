@@ -9,7 +9,7 @@ output_dir: &output ../output
 batch_size: &bsize 1
 datagen:
     batch_size: *bsize
-    img_dims: &dims !!python/tuple [320, 320, 2]
+    img_dims: &dims [320, 320, 1]
 
 # Model
 model:

@@ -32,8 +32,6 @@ def segment(config_file):
             annot_val, **config['datagen'])
    
     x,y = next(datagen_train)
-    print(x.shape, x.min(), x.max(), y.shape, y.min(), y.max())
-    return x,y
     
     # Tensorflow initialize session
     #  utils.init_session()
@@ -51,6 +49,6 @@ if __name__=='__main__':
     parser = argparse.ArgumentParser()
     parser.add_argument('--config', type=str)
     args = parser.parse_args()
-    x,y = segment(args.config)
+    segment(args.config)
     
 
