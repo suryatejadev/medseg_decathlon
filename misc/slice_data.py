@@ -23,7 +23,7 @@ for task in task_list:
         copyfile(data_path+task+'/dataset.json', task_folder+'/dataset.json')
 
     print(task)
-    for im_name in images_list[0:10]:
+    for im_name in images_list:
         if 'nii.gz' in im_name:
             # resample to isotropic
             img3d_nib = nib.load(data_path+task+'/imagesTr/'+im_name)

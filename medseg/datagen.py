@@ -168,10 +168,12 @@ def datagen_segment(data, annots, batch_size, img_dims):
         # Get batch data
         img_batch = []
         annot_batch = []
+        img_dims_temp = np.array(img_dims)
+        img_dims_temp[-1] = 1 # hack to work with single channeled data
         for i in range(batch_size):
             # Get image
             img = utils.load_img(data[batch_index[i]])
-            img = utils.resize_img(img, img_dims)
+            img = utils.resize_img(img, img_dims_temp)
             img, tx_params = augment_img2d(img)
             
             # Get annotation and conditioning image
@@ -188,7 +190,7 @@ def datagen_segment(data, annots, batch_size, img_dims):
             annot_binary = np.zeros_like(annot)
             annot_binary[loc] = 1
 
-            annot = utils.resize_img(annot_binary, img_dims, order=0)
+            annot = utils.resize_img(annot_binary, img_dims_temp, order=0)
             annot,_ = augment_img2d(annot, tx_params)
             annot_batch.append(annot)
 
