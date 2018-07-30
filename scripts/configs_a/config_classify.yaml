@@ -2,11 +2,11 @@
 exp_id: debug
 
 # Paths
-data_path: /media/DATA/Datasets/medseg_decathlon
+data_path: /media/DATA/Datasets/medseg_decathlon/aux/data3d_size_50
 output_dir: &output ../output
 
 # Data
-batch_size: &bsize 4
+batch_size: &bsize 2
 datagen:
     batch_size: *bsize
     img_dims: &dims !!python/tuple [50, 50, 50, 1]
@@ -23,13 +23,13 @@ model:
     model_params:
         blocks: [3, 6, 12]
         input_shape: *dims
-        classes: 20
+        classes: 7
 
 # Train parameters
 train:
     ckpt_period: 2
     fit_params:
         epochs: 5
-        steps_per_epoch: 302
+        steps_per_epoch: 604
         validation_steps: 20
 

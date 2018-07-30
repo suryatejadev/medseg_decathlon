@@ -18,6 +18,8 @@ def load_img(path):
         return tifffile.imread(path)
     elif '.npy' in path:
         return np.load(path)
+    elif '.npz' in path:
+        return np.load(path)['data']
     return imread(path, asgray=True)
 
 def get_sublabel_value(sub_label, path):
@@ -26,12 +28,12 @@ def get_sublabel_value(sub_label, path):
     # tasks = 7; total subclasses = 20
     # 1:4 , 2:2 , 3:3, 4:3, 5:3, 6:2 , 7:3
     task_vals = {
-            1: [0, 13, 27, 40], 
-            2: [54, 67], 
-            3: [81, 94, 107], 
-            4: [121, 134, 148], 
-            5: [161, 174, 188], 
-            6: [201, 215], 
+            1: [0, 13, 27, 40],
+            2: [54, 67],
+            3: [81, 94, 107],
+            4: [121, 134, 148],
+            5: [161, 174, 188],
+            6: [201, 215],
             7: [228, 242, 255]
             }
     return task_vals[task][sub_label]

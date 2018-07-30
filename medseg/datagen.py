@@ -59,10 +59,9 @@ def get_paths(data_path, validation_split=0.2):
         annot_val.append(annot_paths_task[num_train:])
         
         # Get list of labels
-        label_task = np.zeros((total_labels))
-        start_index = int(np.sum(num_labels[:i]))
-        end_index = start_index + num_labels[i]
-        label_task[start_index:end_index] = 1
+        label_task = np.zeros((len(task_list)))
+        label_task[i] = 1
+
 
         labels_train.append(np.array([label_task]*num_train))
         labels_val.append(np.array([label_task]*num_val))

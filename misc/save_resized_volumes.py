@@ -2,6 +2,7 @@ import numpy as np
 import os
 import nibabel as nib
 from shutil import copyfile
+from nibabel.processing import resample_to_output
 from tifffile import imsave
 import sys
 sys.path.append('..')
@@ -9,8 +10,8 @@ sys.path.append('..')
 from medseg import utils
 
 img_size = int(sys.argv[1])
-data_path = '../data/'
-output_path = '../data3d_size_'+str(img_size)
+data_path = '/media/DATA/Datasets/medseg_decathlon/'
+output_path = '/media/DATA/Datasets/medseg_decathlon/aux/data3d_size_'+str(img_size)
 if os.path.exists(output_path)==False:
     os.mkdir(output_path)
 for task in os.listdir(data_path):
@@ -26,10 +27,14 @@ for task in os.listdir(data_path):
     print(task)
     for im_name in images_list:
         if 'nii.gz' in im_name:
-            img3d = nib.load(data_path+task+'/imagesTr/'+im_name).get_fdata()
+            img3d_nib = nib.load(data_path+task+'/imagesTr/'+im_name)
+            img3d_nib = resample_to_output(img3d_nib, voxel_sizes=1, order=1)
+            img3d = img3d_nib.get_fdata()
             if len(img3d.shape)==4:
                 img3d = img3d[...,0]
-            label3d = nib.load(data_path+task+'/labelsTr/'+im_name).get_fdata()
+            label3d_nib = nib.load(data_path+task+'/labelsTr/'+im_name)
+            label3d_nib = resample_to_output(label3d_nib, voxel_sizes=1, order=0)
+            label3d = label3d_nib.get_fdata()
             
             img3d_resize = utils.resize_img(img3d, (img_size, img_size, img_size))
             label3d_resize = utils.resize_img(label3d, (img_size, img_size, img_size))
