@@ -2,7 +2,7 @@
 exp_id: debug_segment
 
 # Paths
-data_path: ../data_sliced
+data_path: /media/DATA/Datasets/medseg_decathlon/aux/data_sliced
 output_dir: &output ../output
 
 # Data

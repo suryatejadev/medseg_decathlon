@@ -24,7 +24,7 @@ def load_img(path):
 
 def get_sublabel_value(sub_label, path):
     # Get task number: for Task02_Heart its 2
-    task = int(path.split(os.sep)[2][5])
+    task = int(path.split(os.sep)[-3][5])
     # tasks = 7; total subclasses = 20
     # 1:4 , 2:2 , 3:3, 4:3, 5:3, 6:2 , 7:3
     task_vals = {
@@ -39,11 +39,11 @@ def get_sublabel_value(sub_label, path):
     return task_vals[task][sub_label]
 
 
-def resize_img(img, img_dims):
+def resize_img(img, img_dims, order=3):
     # Choose MR T2 channel for prostrate
     if len(img.shape)==4:
         img = img[...,0]
-    return resize(img, img_dims, mode='reflect')
+    return resize(img, img_dims, order=order, mode='reflect')
 
 def normalize(img, maxval=1):
     img_min = img.min()

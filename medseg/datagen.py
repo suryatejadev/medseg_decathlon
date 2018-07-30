@@ -51,10 +51,10 @@ def get_paths(data_path, validation_split=0.2):
         paths_val.append(img_paths_task[num_train:])       
 
         # Get list of annotation images
-        annot_path = os.path.join(data_path,task,'labelsTr')
+        annot_path = os.path.join(data_path,task,'labelsTr_npz')
         annot_paths_task = []
         for name in img_names:
-            annot_paths_task.append(os.path.join(annot_path, name[:-3]+'npy'))
+            annot_paths_task.append(os.path.join(annot_path, name[:-3]+'npz'))
         annot_train.append(annot_paths_task[:num_train])
         annot_val.append(annot_paths_task[num_train:])
         
@@ -187,10 +187,10 @@ def datagen_segment(data, annots, batch_size, img_dims):
             img_batch.append(img_cond)
 
             loc = np.where(annot==sub_label)
-            annot = np.zeros_like(img)
-            annot[loc] = 1
+            annot_binary = np.zeros_like(annot)
+            annot_binary[loc] = 1
 
-            annot = utils.resize_img(annot, img_dims)
+            annot = utils.resize_img(annot_binary, img_dims, order=0)
             annot,_ = augment_img2d(annot, tx_params)
             annot_batch.append(annot)
 

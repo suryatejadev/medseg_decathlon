@@ -2,11 +2,11 @@
 exp_id: debug_segment
 
 # Paths
-data_path: ../data_sliced
+data_path: /media/DATA/Datasets/medseg_decathlon/aux/data_sliced
 output_dir: &output ../output
 
 # Data
-batch_size: &bsize 1
+batch_size: &bsize 32
 datagen:
     batch_size: *bsize
     img_dims: &dims !!python/tuple [320, 320, 1]
