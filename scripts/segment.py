@@ -32,15 +32,18 @@ def segment(config_file):
             annot_val, **config['datagen'])
    
     x,y = next(datagen_train)
+    print(x.shape, x.min(), x.max())
+    print(y.shape, y.min(), y.max())
+
     
     # Tensorflow initialize session
-    #  utils.init_session()
+    utils.init_session()
     
     # Define Classification model
-    #  model = engine.Model(**config['model'])
+    model = engine.Model(**config['model'])
 
     #  # Train the model
-    #  model.train(datagen_train, datagen_val, exp_dir, **config['train'])
+    model.train(datagen_train, datagen_val, exp_dir, **config['train'])
 
     # Test the model
     #  model.test(**config['test'])

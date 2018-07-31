@@ -6,6 +6,7 @@ import json
 import random
 import math
 from scipy.ndimage import affine_transform
+from keras.utils import to_categorical
 
 from medseg import utils
 
@@ -179,7 +180,7 @@ def datagen_segment(data, annots, batch_size, img_dims):
             # Get annotation and conditioning image
             annot = utils.load_img(annots[batch_index[i]])
             sub_label = 0 if annot.max()==0 \
-                    else np.random.choice(int(annot.max())+1)
+                    else np.random.randint(1, int(annot.max())+1)
             sub_label_value = utils.get_sublabel_value(
                 sub_label, annots[batch_index[i]])
             cond_img = np.ones_like(img)*sub_label_value/255.
@@ -192,9 +193,13 @@ def datagen_segment(data, annots, batch_size, img_dims):
 
             annot = utils.resize_img(annot_binary, img_dims_temp, order=0)
             annot,_ = augment_img2d(annot, tx_params)
+            annot = to_categorical(annot)
             annot_batch.append(annot)
 
         img_batch = np.array(img_batch)
-        annot_batch = np.array(annot_batch)
-        yield(img_batch, annot_batch)
+        # hack since np.array(annot_batch) is not working
+        annot = np.zeros((batch_size, img_dims[0], img_dims[1], 2))
+        for i in range(batch_size):
+            annot[i] = annot_batch[i]
+        yield(img_batch, annot)
 

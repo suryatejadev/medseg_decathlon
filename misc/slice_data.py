@@ -5,6 +5,7 @@ import nibabel as nib
 from nibabel.processing import resample_to_output
 from scipy.misc import imsave
 from shutil import copyfile
+from tqdm import tqdm
 
 #  data_path = '/media/DATA/Datasets/medseg_decathlon/'
 #  output_path = '/media/DATA/Datasets/medseg_decathlon/aux/data_sliced'
@@ -22,8 +23,9 @@ for task in task_list:
         os.mkdir(os.path.join(task_folder, 'labelsTr_npz'))
         copyfile(data_path+task+'/dataset.json', task_folder+'/dataset.json')
 
+    os.mkdir(os.path.join(task_folder, 'labelsTr_npz'))
     print(task)
-    for im_name in images_list:
+    for im_name in tqdm(images_list):
         if 'nii.gz' in im_name:
             # resample to isotropic
             img3d_nib = nib.load(data_path+task+'/imagesTr/'+im_name)

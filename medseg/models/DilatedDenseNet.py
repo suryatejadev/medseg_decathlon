@@ -25,6 +25,6 @@ def DilatedDenseNet(input_shape, features=12, depth=4, padding='same', batchnorm
     x = Conv2D(features, kernel_size=(3,3), activation='relu', padding=padding)(x)
     x = Conv2D(features, kernel_size=(3,3), activation='relu', padding=padding)(x)
 
-    probabilities = Conv2D(1, kernel_size=(1,1), activation='softmax')(x)
+    probabilities = Conv2D(2, kernel_size=(1,1), activation='softmax')(x)
 
     return Model(inputs=inputs, outputs=probabilities)

@@ -65,7 +65,7 @@ def UNet2D(input_shape, features, depth, conv_params):
         conv = upconv_block(current_input, enc_conv.pop(), current_feat, **conv_params)
         current_input = conv
         current_feat /= 2
-    conv = Conv2D(1, (1, 1), activation='sigmoid')(conv)
+    conv = Conv2D(2, (1, 1), activation='softmax')(conv)
     
     return Model(inputs=[inputs], outputs=[conv])
 

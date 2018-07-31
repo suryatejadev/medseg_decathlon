@@ -6,18 +6,18 @@ data_path: ../data_sliced
 output_dir: &output ../output
 
 # Data
-batch_size: &bsize 1
+batch_size: &bsize 32
 datagen:
     batch_size: *bsize
-    img_dims: &dims [320, 320, 1]
+    img_dims: &dims [320, 320, 2]
 
 # Model
 model:
     name: 'UNet2D'
-    trained_model: None
+    trained_model: ../output/debug_segment/checkpoints/wt-02-1.00.h5
     compile_params:
         optimizer: Adam
-        loss: dice_coef #categorical_crossentropy
+        loss: categorical_crossentropy
         metrics: ['accuracy']
     
     model_params:
@@ -34,7 +34,7 @@ model:
 train:
     ckpt_period: 2
     fit_params:
-        epochs: 2
+        epochs: 5
         steps_per_epoch: 1
         validation_steps: 1
 
