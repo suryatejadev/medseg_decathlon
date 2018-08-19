@@ -44,7 +44,8 @@ def upconv_block(x, x_conv, n_filt, padding='same', dropout=0.0, batchnorm=False
 def UNet2D(input_shape, features, depth, conv_params):
 
     # Define the input
-    inputs = Input(input_shape)
+    shape = list(map(int, input_shape))
+    inputs = Input(shape)
 
     enc_conv = []
     current_input = inputs
@@ -62,7 +63,7 @@ def UNet2D(input_shape, features, depth, conv_params):
     current_input = enc_conv.pop()
     current_feat /= 4
     for i in range(depth-1):
-        conv = upconv_block(current_input, enc_conv.pop(), current_feat, **conv_params)
+        conv = upconv_block(current_input, enc_conv.pop(), int(current_feat), **conv_params)
         current_input = conv
         current_feat /= 2
     conv = Conv2D(2, (1, 1), activation='softmax')(conv)

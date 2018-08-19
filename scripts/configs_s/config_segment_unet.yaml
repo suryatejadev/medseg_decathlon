@@ -14,7 +14,7 @@ datagen:
 # Model
 model:
     name: 'UNet2D'
-    trained_model: ../output/debug_segment/checkpoints/wt-02-1.00.h5
+    trained_model: None
     compile_params:
         optimizer: Adam
         loss: categorical_crossentropy
@@ -37,4 +37,13 @@ train:
         epochs: 5
         steps_per_epoch: 1
         validation_steps: 1
+
+# Test parameters
+test:
+    test_dir: ../data_test
+    trained_model: ../output/debug_segment/checkpoints/wt-03-0.86.h5
+    img_dims: *dims
+
+
+
 
