@@ -15,7 +15,8 @@ My approach to this problem involved two steps. First, I trained a model to clas
 Classification:
 cd scripts
 python classify.py --config=configs/config_classify.yaml
-Classification:
+
+Segmentation:
 cd scripts
 python segment.py --config=configs/config_segment_densenet.yaml
 ```
