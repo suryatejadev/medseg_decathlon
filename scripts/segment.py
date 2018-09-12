@@ -18,22 +18,23 @@ def segment(config_file):
     exp_dir = os.path.join(config['output_dir'], config['exp_id'])
     utils.create_dirs([exp_dir,
             os.path.join(exp_dir, 'checkpoints'),
+            os.path.join(exp_dir, 'outputs'),
             os.path.join(exp_dir, 'logs')])
 
     # Copy config file
     copyfile(config_file, os.path.join(exp_dir, config['exp_id']+'.yaml'))
 
     # Train and validation data generators
-    paths_train, annot_train, _, paths_val, annot_val, _\
-            = datagen.get_paths(config['data_path'])
-    datagen_train = datagen.datagen_segment(paths_train,
-            annot_train, **config['datagen'])
-    datagen_val = datagen.datagen_segment(paths_val,
-            annot_val, **config['datagen'])
-   
-    x,y = next(datagen_train)
-    print(x.shape, x.min(), x.max())
-    print(y.shape, y.min(), y.max())
+    #  paths_train, annot_train, _, paths_val, annot_val, _\
+    #          = datagen.get_paths(config['data_path'])
+    #  datagen_train = datagen.datagen_segment(paths_train,
+    #          annot_train, **config['datagen'])
+    #  datagen_val = datagen.datagen_segment(paths_val,
+    #          annot_val, **config['datagen'])
+ #
+    #  x,y = next(datagen_train)
+    #  print(x.shape, x.min(), x.max())
+    #  print(y.shape, y.min(), y.max())
 
     
     # Tensorflow initialize session
@@ -43,10 +44,10 @@ def segment(config_file):
     model = engine.Model(**config['model'])
 
     #  # Train the model
-    model.train(datagen_train, datagen_val, exp_dir, **config['train'])
+    #  model.train(datagen_train, datagen_val, exp_dir, **config['train'])
 
     # Test the model
-    #  model.test(**config['test'])
+    model.test(os.path.join(exp_dir, 'outputs'), **config['test'])
 
 if __name__=='__main__':
     parser = argparse.ArgumentParser()

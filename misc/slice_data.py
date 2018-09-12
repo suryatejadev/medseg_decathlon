@@ -21,9 +21,7 @@ for task in task_list:
         os.mkdir(task_folder)
         os.mkdir(os.path.join(task_folder, 'imagesTr'))
         os.mkdir(os.path.join(task_folder, 'labelsTr_npz'))
-        copyfile(data_path+task+'/dataset.json', task_folder+'/dataset.json')
-
-    os.mkdir(os.path.join(task_folder, 'labelsTr_npz'))
+        #  copyfile(data_path+task+'/dataset.json', task_folder+'/dataset.json')
     print(task)
     for im_name in tqdm(images_list):
         if 'nii.gz' in im_name:
